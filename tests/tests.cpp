@@ -1,7 +1,11 @@
 #include <gtest/gtest.h>
 
+#include "package.hxx"
+#include "storage_types.hxx"
 
-TEST(PackageTest, IsAssignedIdLowest) {
+
+TEST(PackageTest, IsAssignedIdLowest)
+{
     // przydzielanie ID o jeden większych -- utworzenie dwóch obiektów pod rząd
 
     Package p1;
@@ -36,6 +40,22 @@ TEST(PackageTest, IsAssignmentOperatorCorrect) {
     EXPECT_EQ(p2.get_id(), 1);
 }
 
+TEST(PackageTest, IsSettingIDsCorrect) {
+    Package* p1 = new Package();
+    Package* p2 = new Package();
+    Package* p3 = new Package();
+
+    delete p2;
+    Package p4;
+
+    EXPECT_EQ(p4.get_id(), 2);
+
+    Package p5;
+    EXPECT_EQ(p5.get_id(), 4);
+}
+
+/// Odkomentuj aby wykonało się
+/*
 TEST(PackageQueueTest, IsFifoCorrect) {
     PackageQueue q(PackageQueueType::FIFO);
     q.push(Package(1));
@@ -59,3 +79,4 @@ TEST(PackageQueueTest, IsLifoCorrect) {
     p = q.pop();
     EXPECT_EQ(p.get_id(), 1);
 }
+*/

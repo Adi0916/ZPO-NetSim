@@ -44,7 +44,7 @@ add_executable(Tests ${TEST_SOURCES})
 target_link_libraries(Tests
         PRIVATE
         Logic
-        GTest::gtest
+        GTest::gtest_main
         GTest::gmock
 )
 
