@@ -24,11 +24,14 @@ class IPackageStockpile {
 
 class IPackageQueue {
     Package pop() ;
-    Package get_queue_type() ;
+    PackageQueueType const get_queue_type() ;
 
 };
 
 class PackageQueue : public IPackageQueue {
     PackageQueue(PackageQueueType type) ;
+    private:
+    PackageQueueType const queue_type;
+    std::list<Package> packages;
 };
 
