@@ -2,7 +2,6 @@
 #include <package.hxx>
 
 using const_iterator = std::list<Package>::const_iterator;
-
 enum class PackageQueueType {
     FIFO,
     LIFO
@@ -46,4 +45,3 @@ class PackageQueue : public IPackageQueue {
     PackageQueueType queue_type;
     std::list<Package> packages_;
 };
-
