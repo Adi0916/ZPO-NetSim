@@ -41,11 +41,12 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 
 add_executable(Tests ${TEST_SOURCES})
-target_link_libraries(Tests
+target_link_libraries(
+        Tests
         PRIVATE
         Logic
-        GTest::gtest_main
-        GTest::gmock
+        gtest_main
+        gmock
 )
 
 include(GoogleTest)

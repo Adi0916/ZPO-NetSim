@@ -1,5 +1,9 @@
 #include "package.hxx"
 
+// Definicja statycznych pól klasy
+std::set<ElementID> Package::assigned_IDs;
+std::set<ElementID> Package::freed_IDs;
+
 // Konstruktor domyślny
 Package::Package() {
     if (!freed_IDs.empty()) {
