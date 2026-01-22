@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Zbieramy pliki źródłowe i nagłówkowe (.hxx z obrazka)
 file(GLOB_RECURSE LIB_SOURCES
         "src/*.cpp"
-        "include/*.hxx"
+        "include/*.hpp"
 )
 
 # Wykluczamy main.cpp z biblioteki Logic
