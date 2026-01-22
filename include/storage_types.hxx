@@ -1,3 +1,6 @@
+#ifndef STORAGE_TYPES_HXX
+#define STORAGE_TYPES_HXX
+
 #include <list>
 #include <package.hxx>
 
@@ -47,3 +50,4 @@ class PackageQueue : public IPackageQueue {
     std::list<Package> packages_;
 };
 
+#endif
