@@ -50,7 +50,6 @@ public:
 protected:
     ProbabilityGenerator pg_;
 };
-
 class Storehouse: public IPackageReceiver, public IPackageStockpile{
 public:
     Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d = std::make_unique<PackageQueue>(PackageQueueType::LIFO));
@@ -76,33 +75,23 @@ private:
 class PackageSender
 {
 public:
-    ReceiverPreferences receiver_preferences;
+    ReceiverPreferences receiver_preferences_;
     PackageSender() = default;
     PackageSender(PackageSender&&) = default;
     void send_package();
+    const std::optional<Package>& get_sending_buffer() const {return sending_buffer;};
+protected:
     void push_package(Package&& p);
-    const std::optional<Package>& get_sending_buffer() const
-    {
-        return sending_buffer_;
-    };
-private:
-    std::optional<Package> sending_buffer_;
+    std::optional<Package> sending_buffer;
 };
 
 class Ramp : public PackageSender
 {
 public:
-    Ramp(ElementID id, TimeOffset di)
-        : delivery_interval_(di), id_(id) {}
+    Ramp(ElementID id, TimeOffset di): id_(id), delivery_interval_(di) {};
     void deliver_goods(Time t);
-    TimeOffset get_delivery_interval() const
-    {
-        return delivery_interval_;
-    };
-    ElementID get_id() const
-    {
-        return id_;
-    };
+    TimeOffset get_delivery_interval() const {return delivery_interval_;};
+    ElementID get_id() const {return id_;};
 private:
     TimeOffset delivery_interval_;
     ElementID id_;
@@ -111,22 +100,34 @@ private:
 class Worker: public PackageSender, public IPackageReceiver, public IPackageQueue
     {
 public:
-    Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue>);
+    Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q) : id_(id), pd_(pd), start_time_(0),queue_(std::move(q)) {};
     void do_work(Time t);
-    TimeOffset get_processing_duration() const
-    {
-        return processing_duration_;
-    };
-    std::optional<Time> get_package_processing_start_time() const
-    {
-        return processing_start_time_;
-    };
+    TimeOffset get_processing_duration() const { return pd_; };
+    Time get_package_processing_start_time() const{ return start_time_;};
+
+
+    void receive_package(Package&& p) override { queue_->push(std::move(p)); };
+    ElementID get_id() const override {return id_;};
+    ReceiverType get_receiver_type() const override {return receiverType_;};
+
+    void push(Package&& package) override {queue_->push(std::move(package));};
+    bool empty() const override {return queue_->empty();};
+    const_iterator begin() const override {return queue_->begin();};
+    const_iterator end() const override {return queue_->end();};
+    const_iterator cbegin() const override {return queue_->cbegin();};
+    const_iterator cend() const override {return queue_->cend();};
+    size_t size() const override {return queue_->size();};
+
+    Package pop() override {queue_->pop();};
+    PackageQueueType get_queue_type() const override {queue_->get_queue_type();};
+
 private:
     ElementID id_;
-    TimeOffset processing_duration_;
-    std::optional<Time> processing_start_time_;
+    TimeOffset pd_;
+    Time start_time_;
     std::unique_ptr<IPackageQueue> queue_;
-    std::optional<Package> sending_buffer_;
+    std::optional<Package> sending_buffer;
+    ReceiverType receiverType_ = WORKER;
     };
 
 #endif //NETSIM_NODES_HXX
