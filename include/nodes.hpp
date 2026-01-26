@@ -41,9 +41,14 @@ public:
     IPackageReceiver* choose_receiver() const;
     const preferences_t& get_preferences() const {return preferences_;};
 
-private:
-    ProbabilityGenerator pg_;
+    const_iterator cbegin() const{return preferences_.cbegin();};
+    const_iterator cend() const{return preferences_.cend();};
+    const_iterator begin() const{return preferences_.begin();};
+    const_iterator end() const{return preferences_.end();};
+
     preferences_t preferences_;
+protected:
+    ProbabilityGenerator pg_;
 };
 class Storehouse: public IPackageReceiver, public IPackageStockpile{
 public:
