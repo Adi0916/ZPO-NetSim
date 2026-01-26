@@ -8,7 +8,7 @@
 
 #include "nodes.hpp"
 #include "types.hpp"
-
+enum NodeColor {NIEODWIEDZONY, ODWIEDZONY, ZWERYFIKOWANY};
 template <typename Node>
 class NodeCollection {
 public:
