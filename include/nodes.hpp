@@ -13,6 +13,7 @@
 #include "storage_types.hpp"
 #include "types.hpp"
 #include "helpers.hpp"
+
 enum ReceiverType {WORKER, STOREHOUSE};
 
 class IPackageReceiver {

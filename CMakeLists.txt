@@ -13,9 +13,6 @@ file(GLOB_RECURSE LIB_SOURCES
         "include/*.hpp"
 )
 
-# Wykluczamy main.cpp z biblioteki Logic
-list(FILTER LIB_SOURCES EXCLUDE REGEX "src/main.cpp$")
-
 # Pliki testowe (odkomentuj testy jeśli potrzeba)
 file(GLOB_RECURSE TEST_SOURCES
     tests/main_gtest.cpp
@@ -33,10 +30,6 @@ file(GLOB_RECURSE TEST_SOURCES
 # Biblioteka Logic
 add_library(Logic ${LIB_SOURCES})
 target_include_directories(Logic PUBLIC include)
-
-# Główny program
-add_executable(Main src/main.cpp)
-target_link_libraries(Main PRIVATE Logic)
 
 # --- TESTY (GOOGLETEST) ---
 
@@ -56,7 +49,7 @@ target_link_libraries(
         Tests
         PRIVATE
         Logic
-        gtest_main
+        gtest
         gmock
 )
 

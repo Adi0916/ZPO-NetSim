@@ -4,9 +4,14 @@
 
 #ifndef NETSIM_HELPERS_HXX
 #define NETSIM_HELPERS_HXX
+
+#ifndef EXERCISE_ID
+    #define EXERCISE_ID 5
+#endif
+
+#include "config.hpp"
 #include <functional>
 #include <random>
-
 #include "types.hpp"
 
 extern std::random_device rd;

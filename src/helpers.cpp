@@ -2,7 +2,7 @@
 // Created by Anastasia on 19.01.2026.
 //
 #include "helpers.hpp"
-
+#include "config.hpp"
 #include <cstdlib>
 #include <random>
 
