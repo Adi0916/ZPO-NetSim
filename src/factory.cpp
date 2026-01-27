@@ -308,7 +308,7 @@ Factory load_factory_structure(std::istream& is) {
         }
         if (dest[0] == "store") {
           auto const ramp_iter = factory.find_ramp_by_id(std::stoi(src[1]));
-          auto const store_iter = factory.find_storehouse_by_id(std::stoi(src[1]));
+          auto const store_iter = factory.find_storehouse_by_id(std::stoi(dest[1]));
           ramp_iter->receiver_preferences_.add_receiver(&*store_iter);
         }
       }
