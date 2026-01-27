@@ -20,7 +20,7 @@ public:
 
     virtual void receive_package(Package&&) = 0;
     virtual ElementID get_id() const = 0;
-    //virtual ReceiverType get_receiver_type() const = 0;
+    virtual ReceiverType get_receiver_type() const = 0;
     virtual IPackageStockpile::const_iterator cbegin() const = 0;
     virtual IPackageStockpile::const_iterator begin() const = 0;
     virtual IPackageStockpile::const_iterator cend() const = 0;
