@@ -81,7 +81,6 @@ public:
     NodeCollection<Storehouse>::const_iterator storehouse_cbegin() const { return storehouses_.cbegin(); }
     NodeCollection<Storehouse>::const_iterator storehouse_cend() const { return storehouses_.cend(); }
 
-    //Pozostałe najlepiej napisać w cpp:
     bool is_consistent();
     void do_deliveries(Time t);
     void do_package_passing();
