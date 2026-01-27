@@ -26,17 +26,21 @@ bool has_reachable_storehouse(const PackageSender* sender, std::map<const Packag
     if ( node_colors[sender]== ZWERYFIKOWANY) {
         return true;
     }
+
+  if (node_colors[sender] == NodeColor::ODWIEDZONY) {
+    throw std::logic_error("The sender has no recipients!");
+  }
     node_colors[sender] = ODWIEDZONY;
 
-    if (sender->receiver_preferences_.preferences.empty()) {
+    if (sender->receiver_preferences_.get_preferences().empty()) {
         throw std::logic_error("The sender has no recipients!");
     }
 
     bool has_another_reciever = false;
-    for (const auto& receiver : sender->receiver_preferences_.preferences) {
+    for (const auto& receiver : sender->receiver_preferences_.get_preferences()) {
         if (receiver.first->get_receiver_type() == ReceiverType::STOREHOUSE) {
             has_another_reciever = true;
-        }else if (receiver.first->get_receiver_type() == ReceiverType::WORKER) {
+        }else {
             IPackageReceiver* receiver_ptr = receiver.first;
             auto worker_ptr = dynamic_cast<Worker*>(receiver_ptr);
             auto sendrecv_ptr = dynamic_cast<PackageSender*>(worker_ptr);
@@ -47,8 +51,8 @@ bool has_reachable_storehouse(const PackageSender* sender, std::map<const Packag
 
             has_another_reciever = true;
 
-            if (node_colors[sender] == NIEODWIEDZONY) {
-                has_reachable_storehouse(sender, node_colors);
+            if (node_colors[sendrecv_ptr] == NIEODWIEDZONY) {
+                has_reachable_storehouse(sendrecv_ptr, node_colors);
             }
         }
     }
