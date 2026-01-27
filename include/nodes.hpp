@@ -81,7 +81,7 @@ public:
     void send_package();
     const std::optional<Package>& get_sending_buffer() const {return sending_buffer;};
 protected:
-    void push_package(Package&& p);
+    void push_package(Package&& p){sending_buffer = std::move(p);};
     std::optional<Package> sending_buffer;
 };
 
@@ -93,8 +93,8 @@ public:
     TimeOffset get_delivery_interval() const {return delivery_interval_;};
     ElementID get_id() const {return id_;};
 private:
-    TimeOffset delivery_interval_;
     ElementID id_;
+    TimeOffset delivery_interval_;
 };
 
 class Worker: public PackageSender, public IPackageReceiver, public IPackageQueue
@@ -118,8 +118,8 @@ public:
     const_iterator cend() const override {return queue_->cend();};
     size_t size() const override {return queue_->size();};
 
-    Package pop() override {queue_->pop();};
-    PackageQueueType get_queue_type() const override {queue_->get_queue_type();};
+    Package pop() override {return queue_->pop();};
+    PackageQueueType get_queue_type() const override {return queue_->get_queue_type();};
 
 private:
     ElementID id_;

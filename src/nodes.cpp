@@ -1,4 +1,5 @@
 #include "nodes.hpp"
+
 void Storehouse::receive_package(Package&& p) {
     d_ -> push(std::move(p));
 }
